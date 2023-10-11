@@ -2,7 +2,10 @@
 ## This script is derived from a script written by ParisNeo
 ## It is used with the permission of ParisNeo (https://github.com/ParisNeo/lollms-webui)
 
-AMD=$1 ## Get argument 
+## Get argument
+AMD=$1 
+## To make the default GPU driver permanently AMD,
+## Make the following change:  AMD=$1 becomes AMD="AMD" and save it.
 
 if ping -q -c 1 google.com >/dev/null 2>&1; then
     echo -e "\e[32mInternet Connection working fine\e[0m"
