@@ -2,6 +2,8 @@
 ## This script is derived from a script written by ParisNeo
 ## It is used with the permission of ParisNeo (https://github.com/ParisNeo/lollms-webui)
 
+AMD=$1 ## Get argument 
+
 if ping -q -c 1 google.com >/dev/null 2>&1; then
     echo -e "\e[32mInternet Connection working fine\e[0m"
     # Install git
@@ -96,6 +98,12 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+## The script loads NVIDIA GPU drivers by default
+## Check if AMD was passed and reload with AMD GPU drivers
+if [ $AMD == "AMD" ]; then
+  python3.10 -m pip uninstall torch torchvision torchaudio torchtext functorch xformers
+  python3.10 -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm5.6
+fi
 
 
 # Launch the Python application
