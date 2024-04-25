@@ -91,6 +91,7 @@ if 'source fooocus_env/bin/activate' ; then
   echo -n "is active"
 else
   echo -n "activate failed"
+  exit 1
 fi
 
 # Install the required packages
