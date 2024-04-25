@@ -26,11 +26,11 @@ if ping -q -c 1 google.com >/dev/null 2>&1; then
     fi
 
     # Check if repository exists 
-    if [[ -d .git ]] ;then
+    if [ -d .git ] ;then
     echo Pulling latest changes for Fooocus
     git pull origin main
     else
-      if [[ -d Fooocus ]] ;then
+      if [ -d Fooocus ] ;then
         cd Fooocus
         echo Pulling latest version for Fooocus
         git pull
@@ -86,11 +86,11 @@ fi
 
 
 # Activate the virtual environment
-echo "Activating virtual environment... - "
-if 'source fooocus_env/bin/activate' ; then
-  echo -n "is active"
+echo -n "Activating virtual environment... - "
+if source fooocus_env/bin/activate ; then
+  echo "is active"
 else
-  echo -n "activate failed"
+  echo "is not active. Use the 'bash' shell script instead of 'sh'."
   exit 1
 fi
 
