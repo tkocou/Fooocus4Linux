@@ -90,7 +90,7 @@ echo -n "Activating virtual environment... - "
 if source fooocus_env/bin/activate ; then
   echo "is active"
 else
-  echo "is not active. Use the 'bash' shell script instead of 'sh'."
+  echo "is not active. Use the 'bash' shell instead of 'sh'."
   exit 1
 fi
 
