@@ -7,6 +7,9 @@ AMD=$1
 ## To make the default GPU driver permanently AMD,
 ## Make the following change:  AMD=$1 becomes AMD="AMD" and save it.
 
+PYTHON="python3.11"
+PYVENV="python3.11-venv"
+
 if ping -q -c 1 google.com >/dev/null 2>&1; then
     echo -e "\e[32mInternet Connection working fine\e[0m"
     # Install git
@@ -42,31 +45,31 @@ if ping -q -c 1 google.com >/dev/null 2>&1; then
     fi
 
     # Install Python 3.10 and pip
-    echo -n "Checking for python3.10..."
-    if command -v python3.10 > /dev/null 2>&1; then
+    echo -n "Checking for "$PYTHON"..."
+    if command -v $PYTHON > /dev/null 2>&1; then
       echo "is installed"
     else
-      read -p "Python3.10 is not installed. Would you like to install Python3.10? [Y/N] " choice
+      read -p $PYTHON" is not installed. Would you like to install "$PYTHON"? [Y/N] " choice
       if [ "$choice" = "Y" ] || [ "$choice" = "y" ]; then
-        echo "Installing Python3.10..."
+        echo "Installing "$PYTHON"..."
         sudo apt update
-        sudo apt install -y python3.10 python3.10-venv
+        sudo apt install -y $PYTHON $PYVENV
       else
-        echo "Please install Python3.10 and try again."
+        echo "Please install "$PYTHON" and try again."
         exit 1
       fi
     fi
 
     # Install venv module
     echo -n "Checking for venv module..."
-    if python3.10 -m venv fooocus_env > /dev/null 2>&1; then
+    if $PYTHON -m venv fooocus_env > /dev/null 2>&1; then
       echo "is installed"
     else
       read -p "venv module is not available. Would you like to install it? [Y/N] " choice
       if [ "$choice" = "Y" ] || [ "$choice" = "y" ]; then
         echo "Installing venv module..."
         sudo apt update
-        sudo apt install -y python3.10-venv
+        sudo apt install -y $PYVENV
       else
         echo "Please install venv module and try again."
         exit 1
@@ -75,7 +78,7 @@ if ping -q -c 1 google.com >/dev/null 2>&1; then
 
     # Create a new virtual environment
     echo -n "Creating virtual environment..."
-    python3.10 -m venv fooocus_env
+    $PYTHON -m venv fooocus_env
     if [ $? -ne 0 ]; then
       echo "Failed to create virtual environment. Please check your Python installation and try again."
       exit 1
@@ -96,9 +99,9 @@ fi
 
 # Install the required packages
 echo "Installing requirements..."
-python3.10 -m pip install pip --upgrade
-python3.10 -m pip install pygit2==1.12.2
-python3.10 -m pip install --upgrade -r requirements_versions.txt
+$PYTHON -m pip install pip --upgrade
+$PYTHON -m pip install pygit2==1.12.2
+$PYTHON -m pip install --upgrade -r requirements_versions.txt
 
 if [ $? -ne 0 ]; then
   echo "Failed to install required packages. Please check your internet connection and try again."
@@ -108,8 +111,8 @@ fi
 ## The script loads NVIDIA GPU drivers by default
 ## Check if AMD was passed and reload with AMD GPU drivers
 if [ $AMD == "AMD" ]; then
-  python3.10 -m pip uninstall torch torchvision torchaudio torchtext functorch xformers
-  python3.10 -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm5.6
+  $PYTHON -m pip uninstall torch torchvision torchaudio torchtext functorch xformers
+  $PYTHON -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm5.6
 fi
 
 
